@@ -20,11 +20,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
     <script>
-        // --- COLOR CONFIGURATION (REVERTED TO EMERALD/SLATE) ---
+        // --- COLOR CONFIGURATION (UPGRADED TO ELECTRIC BLUE / DEEP NAVY) ---
         const themeColors = {
-            accent: '#10b981',    /* Emerald 500 - Main Accent Color */
-            secondary: '#34d399', /* Emerald 400 - Secondary/Gradient Color */
-            dark: '#020617',      /* Slate 950   - Main Background */
+            accent: '#006EFF',    /* Electric Blue - Main Accent */
+            secondary: '#0878E8', /* Bright Blue - Secondary/Gradient */
+            dark: '#08090D',      /* Near Black - Main Background */
+            navy: '#111D2D',      /* Dark Navy - Containers */
+            card: '#081D30',      /* Deep Navy Blue - Cards */
+            slate: '#60799C',     /* Slate Blue-Gray - Borders */
+            muted: '#B8BCC4',     /* Light Gray - Secondary text */
+            mainText: '#F5F5F5'   /* Off White - Main text */
         };
 
         tailwind.config = {
@@ -37,8 +42,13 @@
                         accent: themeColors.accent,
                         secondary: themeColors.secondary,
                         dark: themeColors.dark,
-                        glass: 'rgba(255, 255, 255, 0.05)',
-                        glassBorder: 'rgba(255, 255, 255, 0.1)',
+                        gray: {
+                            300: themeColors.mainText, /* Remap standard grays to new palette */
+                            400: themeColors.muted,
+                            500: themeColors.slate,
+                        },
+                        glass: 'rgba(8, 29, 48, 0.4)',
+                        glassBorder: 'rgba(96, 121, 156, 0.2)',
                     },
                     animation: {
                         'float': 'float 6s ease-in-out infinite',
@@ -66,32 +76,30 @@
 
     <style>
         body {
-            background-color: #020617; /* Matches themeColors.dark */
-            color: #f1f5f9;
+            background-color: #08090D; /* Near Black */
+            color: #F5F5F5; /* Off White */
             overflow-x: hidden;
             margin: 0;
         }
 
-        /* --- USER PROVIDED NAVBAR CSS (Reverted Colors) --- */
+        /* --- NAVBAR CSS --- */
         .navbar {
             display: flex;
             justify-content: space-around;
             align-items: center;
             padding: 12px;
-            color: #fff;
+            color: #F5F5F5;
             font-size: 1.1rem; 
             
-            /* Critical Fixed Position */
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             z-index: 1000;
             
-            /* Glassmorphism */
             backdrop-filter: blur(10px);
-            background: rgba(2, 6, 23, 0.8); /* Adjusted to match #020617 */
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(8, 9, 13, 0.8); /* Near Black with opacity */
+            border-bottom: 1px solid rgba(96, 121, 156, 0.2);
             transition: all 0.4s ease;
         }
 
@@ -104,11 +112,10 @@
         .logo h1 {
             font-size: 1.4rem;
             letter-spacing: 2px;
-            /* Using theme colors for gradient: #10b981 to #34d399 */
-            background: linear-gradient(90deg, #10b981, #34d399); 
+            background: linear-gradient(90deg, #006EFF, #0878E8); /* Electric to Bright Blue */
             -webkit-background-clip: text;
             color: transparent;
-            z-index: 1002; /* Stay above dropdown */
+            z-index: 1002;
             font-weight: 800;
             margin: 0;
         }
@@ -137,26 +144,26 @@
         }
 
         .nav-links .nav-item:hover, .nav-links .nav-item.active-link {
-            color: #10b981; /* #10b981 */
-            text-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+            color: #006EFF; 
+            text-shadow: 0 0 10px rgba(0, 110, 255, 0.5);
         }
 
         /* --- Burger Icon Styling --- */
         .burger-icon {
             display: none;
             cursor: pointer;
-            z-index: 1002; /* Stay above dropdown */
+            z-index: 1002;
         }
 
         .burger-icon div {
             width: 25px;
             height: 2px;
-            background-color: #10b981; /* #10b981 */
+            background-color: #006EFF;
             margin: 6px;
             transition: all 0.3s ease;
         }
 
-        /* --- Top Open Responsive 3D Animation --- */
+        /* --- Responsive 3D Animation --- */
         @media (max-width: 768px) {
             .navbar {
                 justify-content: space-between;
@@ -168,24 +175,23 @@
 
             .nav-links {
                 position: fixed;
-                top: -100vh; /* Start hidden above the screen */
+                top: -100vh;
                 left: 0;
                 width: 100%;
                 height: 100vh; 
-                background: rgba(2, 6, 23, 0.98); /* Match #020617 */
+                background: rgba(8, 9, 13, 0.98); /* Near Black */
                 backdrop-filter: blur(20px);
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
                 gap: 30px;
                 
-                /* 3D "Swing Down" Effect */
                 transform-origin: top;
                 transform: rotateX(-90deg); 
                 opacity: 0;
                 transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
                 box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-                border-bottom: 2px solid #10b981;
+                border-bottom: 2px solid #006EFF;
             }
 
             .nav-links.active {
@@ -194,7 +200,6 @@
                 opacity: 1;
             }
 
-            /* Burger Morphing into X */
             .burger-icon.active .bar1 {
                 transform: rotate(-45deg) translate(-5px, 6px);
             }
@@ -206,54 +211,47 @@
             }
 
             .nav-links .nav-item {
-                font-size: 1.4rem;
+                font-size: clamp(1.2rem, 4vw, 1.5rem);
             }
         }
-        /* --- END USER NAVBAR CSS --- */
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #020617;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #334155;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #10b981;
-        }
+        /* --- STREAMING_CHUNK:Adding utilities for scrollbars and glass effects... --- */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #08090D; }
+        ::-webkit-scrollbar-thumb { background: #111D2D; border-radius: 4px; border: 1px solid #061730; }
+        ::-webkit-scrollbar-thumb:hover { background: #006EFF; }
 
-        /* Glassmorphism Utilities */
         .glass-panel {
-            background: rgba(2, 6, 23, 0.7); /* #020617 base */
+            background: rgba(8, 29, 48, 0.6); /* Deep Navy Blue */
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(96, 121, 156, 0.2); /* Slate Blue-Gray */
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
         }
 
         .glass-card {
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(8, 29, 48, 0.4); /* Deep Navy Blue */
             backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(96, 121, 156, 0.15);
             transition: all 0.3s ease;
         }
 
         .glass-card:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(16, 185, 129, 0.3); /* #10b981 border */
+            background: rgba(8, 29, 48, 0.8);
+            border-color: rgba(0, 110, 255, 0.4);
             transform: translateY(-5px);
-            box-shadow: 0 10px 30px -10px rgba(16, 185, 129, 0.2);
+            box-shadow: 0 10px 30px -10px rgba(0, 110, 255, 0.3);
+        }
+        
+        .glass-card.featured:hover {
+            border-color: rgba(8, 120, 232, 0.6);
+            box-shadow: 0 10px 40px -10px rgba(8, 120, 232, 0.4);
         }
 
-        /* Timeline / Resume Styles */
         .timeline-item {
             position: relative;
             padding-left: 2rem;
-            border-left: 2px solid rgba(255, 255, 255, 0.1);
+            border-left: 2px solid rgba(96, 121, 156, 0.2);
             padding-bottom: 2rem;
         }
         .timeline-item:last-child {
@@ -266,18 +264,16 @@
             width: 0.8rem;
             height: 0.8rem;
             border-radius: 50%;
-            background: #10b981; /* #10b981 */
-            box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+            background: #006EFF;
+            box-shadow: 0 0 10px rgba(0, 110, 255, 0.5);
         }
 
-        /* Text Gradient */
         .text-gradient {
-            background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+            background: linear-gradient(135deg, #006EFF 0%, #0878E8 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
         
-        /* Canvas Positioning */
         #bg-canvas {
             position: fixed;
             top: 0;
@@ -288,14 +284,13 @@
             outline: none;
         }
 
-        /* Loader */
         #loader {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: #020617; /* #020617 */
+            background: #08090D;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -305,9 +300,9 @@
         .loader-spinner {
             width: 50px;
             height: 50px;
-            border: 3px solid rgba(255,255,255,0.1);
+            border: 3px solid rgba(255,255,255,0.05);
             border-radius: 50%;
-            border-top-color: #10b981; /* #10b981 */
+            border-top-color: #006EFF;
             animation: spin 1s ease-in-out infinite;
         }
         @keyframes spin {
@@ -319,6 +314,31 @@
             font-weight: 500;
             letter-spacing: 0.025em;
         }
+
+        /* --- STREAMING_CHUNK:Defining scroll reveal animation classes... --- */
+        .reveal {
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); /* Smooth easing */
+        }
+        
+        /* Initial Transform States */
+        .reveal.fade-in { transform: translate(0); }
+        .reveal.slide-up { transform: translateY(60px); }
+        .reveal.slide-down { transform: translateY(-60px); }
+        .reveal.slide-left { transform: translateX(-60px); }
+        .reveal.slide-right { transform: translateX(60px); }
+        .reveal.zoom-in { transform: scale(0.9); }
+        
+        /* Active state MUST be declared after initial states to override them properly */
+        .reveal.active {
+            opacity: 1;
+            transform: translate(0) scale(1) !important;
+        }
+        
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+        .delay-400 { transition-delay: 400ms; }
     </style>
 </head>
 <body class="antialiased selection:bg-accent selection:text-white">
@@ -331,22 +351,19 @@
     <!-- 3D Background Canvas -->
     <canvas id="bg-canvas"></canvas>
 
-    <!-- Navigation (Using structure from Navbar.jsx and styles from Navbar.css) -->
+    <!-- Navigation -->
     <nav class="navbar">
         <div class="logo">
-            <!-- 3D Model Canvas for Navbar -->
             <canvas id="nav-3d-canvas"></canvas>
             <h1>HS.</h1>
         </div>
         
-        <!-- Burger Icon with 3-bar to X transition -->
         <div class="burger-icon" id="burger-icon">
             <div class="bar1"></div>
             <div class="bar2"></div>
             <div class="bar3"></div>
         </div>
 
-        <!-- The dropdown menu -->
         <ul class="nav-links" id="nav-links">
             <li><a href="#home" class="nav-item">Home</a></li>
             <li><a href="#work" class="nav-item">Projects</a></li>
@@ -357,20 +374,20 @@
     </nav>
 
     <!-- Hero Section -->
-    <section id="home" class="min-h-screen flex items-center justify-center relative px-6 pt-20">
+    <section id="home" class="min-h-screen flex items-center justify-center relative px-4 sm:px-6 pt-20">
         <div class="text-center z-10 max-w-4xl mx-auto">
-            <div class="mb-6 inline-block px-4 py-1 rounded-full border border-accent/30 bg-accent/5 backdrop-blur-sm animate-float">
-                <span class="text-accent text-sm font-medium tracking-wide">SOFTWARE DEVELOPER & FREELANCER</span>
+            <div class="mb-6 inline-block px-4 py-1 rounded-full border border-accent/30 bg-accent/5 backdrop-blur-sm animate-float reveal slide-down">
+                <span class="text-accent text-sm font-medium tracking-wide">FULL STACK SOFTWARE ENGINEER</span>
             </div>
-            <h1 class="text-4xl md:text-6xl lg:text-8xl font-extrabold tracking-tight mb-8 leading-tight">
+            <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-extrabold tracking-tight mb-8 leading-tight reveal zoom-in delay-100">
                 Haji Abubaker <br>
                 <span class="text-gradient">Sidiq M</span>
             </h1>
-            <p class="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
-                Specializing in full-stack development with React, Python, and Django. Building responsive, dynamic, and user-centric digital experiences.
+            <p class="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed reveal slide-up delay-200">
+                Specializing in full-stack development with Java, Python, React, and Spring Boot. Building highly scalable cloud-ready solutions and dynamic web experiences.
             </p>
-            <div class="flex flex-col md:flex-row gap-4 justify-center items-center">
-                <a href="#work" class="px-8 py-4 bg-accent text-white font-bold rounded-full hover:bg-white hover:text-black transition-all transform hover:scale-105 shadow-[0_0_20px_rgba(16,185,129,0.3)]">
+            <div class="flex flex-col md:flex-row gap-4 justify-center items-center reveal slide-up delay-300">
+                <a href="#work" class="px-8 py-4 bg-accent text-white font-bold rounded-full hover:bg-white hover:text-black transition-all transform hover:scale-105 shadow-[0_0_20px_rgba(0,110,255,0.4)]">
                     View Projects
                 </a>
                 <a href="#contact" class="px-8 py-4 rounded-full border border-white/20 hover:bg-white/5 hover:border-white transition-all backdrop-blur-sm">
@@ -379,8 +396,7 @@
             </div>
         </div>
 
-        <!-- Scroll Indicator -->
-        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce reveal fade-in delay-400">
             <i data-lucide="chevrons-down" class="w-6 h-6 text-gray-400"></i>
         </div>
     </section>
@@ -388,22 +404,74 @@
     <!-- Work Section -->
     <section id="work" class="py-24 px-6 relative">
         <div class="max-w-7xl mx-auto">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-16">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16 reveal slide-left">
                 <div>
                     <h2 class="text-3xl md:text-4xl font-bold mb-4">All Projects</h2>
-                    <p class="text-gray-400 max-w-md">A complete showcase of my Frontend and Backend work.</p>
+                    <p class="text-gray-400 max-w-md">A complete showcase of my Enterprise, Backend, and Frontend work.</p>
                 </div>
-                <a href="https://github.com/Sidiq2002" target="_blank" class="hidden md:flex items-center text-accent hover:text-white transition-colors mt-4 md:mt-0">
+                <a href="https://github.com/Sidiq2002" target="_blank" class="hidden md:flex items-center text-accent hover:text-white transition-colors mt-4 md:mt-0 reveal slide-right">
                     View GitHub Profile <i data-lucide="github" class="ml-2 w-4 h-4"></i>
                 </a>
             </div>
 
+            <!-- Enterprise / Professional Projects -->
+            <h3 class="text-xl font-bold mb-6 text-white flex items-center reveal fade-in"><i data-lucide="briefcase" class="mr-2 w-5 h-5 text-secondary"></i> Professional & Enterprise Projects</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+                
+                 <!-- Featured Project: PALMALL -->
+                <div class="glass-card featured p-8 rounded-2xl group flex flex-col h-full relative col-span-1 md:col-span-2 lg:col-span-3 bg-gradient-to-br from-white/5 to-transparent reveal slide-up">
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="p-4 bg-secondary/10 rounded-xl text-secondary">
+                            <i data-lucide="building-2" class="w-8 h-8"></i>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-xs font-bold text-gray-300 flex items-center">
+                                <i data-lucide="lock" class="w-3 h-3 mr-1"></i> Proprietary Project
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <h3 class="text-3xl font-bold mb-2 text-white group-hover:text-secondary transition-colors">PALMALL Legacy Modernization Platform</h3>
+                    <h4 class="text-accent font-semibold mb-6 flex items-center">
+                        <i data-lucide="map-pin" class="w-4 h-4 mr-1"></i> Let Us Support Pvt. Ltd. (Palmdigitalz)
+                    </h4>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8 flex-grow">
+                        <div>
+                            <p class="text-gray-300 leading-relaxed mb-4">
+                                Engineered a highly scalable legacy modernization platform designed to process raw mainframe codebases and convert them into modern, cloud-ready microservices. This system drastically optimized workflows, <strong>reducing manual system analysis time by 35%</strong>.
+                            </p>
+                            <p class="text-gray-300 leading-relaxed">
+                                Developed an intelligent business logic extraction engine that automatically generates business rules, use case diagrams, and technical documentation—effectively bridging the gap between legacy code and modern requirements.
+                            </p>
+                        </div>
+                        <div>
+                            <ul class="space-y-3 text-gray-400">
+                                <li class="flex items-start"><i data-lucide="check-circle-2" class="w-5 h-5 mr-2 text-accent shrink-0 mt-0.5"></i> Architected a high-performance core parsing backend.</li>
+                                <li class="flex items-start"><i data-lucide="check-circle-2" class="w-5 h-5 mr-2 text-accent shrink-0 mt-0.5"></i> Developed a microservices generator converting rules into REST APIs, achieving <strong>98% logic validation accuracy</strong>.</li>
+                                <li class="flex items-start"><i data-lucide="check-circle-2" class="w-5 h-5 mr-2 text-accent shrink-0 mt-0.5"></i> Designed interactive data visualization dashboards to monitor database states and processing metrics.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-wrap gap-2 pt-6 border-t border-white/10">
+                        <span class="text-sm px-3 py-1.5 rounded-lg bg-accent/20 border border-accent/30 text-accent font-medium">Java</span>
+                        <span class="text-sm px-3 py-1.5 rounded-lg bg-accent/20 border border-accent/30 text-accent font-medium">Spring Boot</span>
+                        <span class="text-sm px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-gray-200">Python</span>
+                        <span class="text-sm px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-gray-200">React</span>
+                        <span class="text-sm px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-gray-200">PostgreSQL</span>
+                        <span class="text-sm px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-gray-200">JavaScript</span>
+                    </div>
+                </div>
+
+            </div>
+
             <!-- Frontend Projects -->
-            <h3 class="text-xl font-bold mb-6 text-accent flex items-center"><i data-lucide="monitor" class="mr-2 w-5 h-5"></i> Frontend Development</h3>
+            <h3 class="text-xl font-bold mb-6 text-accent flex items-center reveal fade-in"><i data-lucide="monitor" class="mr-2 w-5 h-5"></i> Frontend Development</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
                 
                  <!-- Project: Portfolio -->
-                <div class="glass-card p-8 rounded-2xl group flex flex-col h-full relative">
+                <div class="glass-card p-8 rounded-2xl group flex flex-col h-full relative reveal slide-up">
                     <div class="flex justify-between items-start mb-6">
                         <div class="p-3 bg-accent/10 rounded-lg text-accent">
                             <i data-lucide="layout" class="w-8 h-8"></i>
@@ -428,7 +496,7 @@
                 </div>
 
                 <!-- Project: Food Order App -->
-                <div class="glass-card p-8 rounded-2xl group flex flex-col h-full relative">
+                <div class="glass-card p-8 rounded-2xl group flex flex-col h-full relative reveal slide-up delay-100">
                     <div class="flex justify-between items-start mb-6">
                         <div class="p-3 bg-accent/10 rounded-lg text-accent">
                             <i data-lucide="shopping-cart" class="w-8 h-8"></i>
@@ -453,7 +521,7 @@
                 </div>
 
                 <!-- Project: Travel Blog -->
-                <div class="glass-card p-8 rounded-2xl group flex flex-col h-full relative">
+                <div class="glass-card p-8 rounded-2xl group flex flex-col h-full relative reveal slide-up delay-200">
                      <div class="flex justify-between items-start mb-6">
                         <div class="p-3 bg-accent/10 rounded-lg text-accent">
                             <i data-lucide="map" class="w-8 h-8"></i>
@@ -478,7 +546,7 @@
                 </div>
 
                 <!-- Project: MovieHUB -->
-                <div class="glass-card p-8 rounded-2xl group flex flex-col h-full relative">
+                <div class="glass-card p-8 rounded-2xl group flex flex-col h-full relative reveal slide-up">
                      <div class="flex justify-between items-start mb-6">
                         <div class="p-3 bg-accent/10 rounded-lg text-accent">
                             <i data-lucide="film" class="w-8 h-8"></i>
@@ -503,7 +571,7 @@
                 </div>
 
                 <!-- Project: Weather App -->
-                <div class="glass-card p-8 rounded-2xl group flex flex-col h-full relative">
+                <div class="glass-card p-8 rounded-2xl group flex flex-col h-full relative reveal slide-up delay-100">
                     <div class="flex justify-between items-start mb-6">
                         <div class="p-3 bg-accent/10 rounded-lg text-accent">
                             <i data-lucide="cloud" class="w-8 h-8"></i>
@@ -528,7 +596,7 @@
                 </div>
 
                  <!-- Project: To-Do App -->
-                 <div class="glass-card p-8 rounded-2xl group flex flex-col h-full relative">
+                 <div class="glass-card p-8 rounded-2xl group flex flex-col h-full relative reveal slide-up delay-200">
                     <div class="flex justify-between items-start mb-6">
                         <div class="p-3 bg-accent/10 rounded-lg text-accent">
                             <i data-lucide="check-square" class="w-8 h-8"></i>
@@ -555,10 +623,10 @@
             </div>
 
              <!-- Backend Projects -->
-            <h3 class="text-xl font-bold mb-6 text-secondary flex items-center"><i data-lucide="server" class="mr-2 w-5 h-5"></i> Backend Development</h3>
+            <h3 class="text-xl font-bold mb-6 text-secondary flex items-center reveal fade-in"><i data-lucide="server" class="mr-2 w-5 h-5"></i> Backend Development</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                  <!-- Project: FoodHUB -->
-                 <div class="glass-card p-8 rounded-2xl group flex flex-col h-full relative">
+                 <div class="glass-card p-8 rounded-2xl group flex flex-col h-full relative reveal slide-up">
                     <div class="flex justify-between items-start mb-6">
                         <div class="p-3 bg-white/5 rounded-lg text-secondary border border-secondary/20">
                             <i data-lucide="database" class="w-8 h-8"></i>
@@ -580,7 +648,7 @@
                 </div>
 
                  <!-- Project: Travel World -->
-                 <div class="glass-card p-8 rounded-2xl group flex flex-col h-full relative">
+                 <div class="glass-card p-8 rounded-2xl group flex flex-col h-full relative reveal slide-up delay-100">
                     <div class="flex justify-between items-start mb-6">
                         <div class="p-3 bg-white/5 rounded-lg text-secondary border border-secondary/20">
                             <i data-lucide="globe-2" class="w-8 h-8"></i>
@@ -607,11 +675,11 @@
     <!-- Resume / Experience Section -->
     <section id="resume" class="py-24 px-6 relative bg-black/20">
         <div class="max-w-7xl mx-auto">
-            <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center">Resume & Journey</h2>
+            <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center reveal slide-down">Resume & Journey</h2>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
                 <!-- Experience -->
-                <div>
+                <div class="reveal slide-right">
                     <h3 class="text-2xl font-bold mb-8 flex items-center text-accent">
                         <i data-lucide="briefcase" class="mr-3 w-6 h-6"></i> Experience
                     </h3>
@@ -619,43 +687,49 @@
                         <div class="timeline-item">
                             <div class="timeline-dot"></div>
                             <div class="mb-1 text-sm text-gray-400">June 2025 - Present</div>
-                            <h4 class="text-xl font-bold text-white">Software Developer</h4>
-                            <div class="text-accent mb-2">PalmDigitalz, Chennai</div>
-                            <p class="text-gray-300 text-sm mb-3">Key Responsibilities:</p>
+                            <h4 class="text-xl font-bold text-white">Full Stack Software Engineer</h4>
+                            <div class="text-accent mb-2">Let Us Support Pvt. Ltd. (PalmDigitalz), Chennai</div>
+                            <p class="text-gray-300 text-sm mb-3 font-medium border-b border-white/10 pb-2">Key Project: PALMALL Legacy Modernization Platform</p>
                             <ul class="list-disc list-outside ml-4 text-gray-400 text-sm space-y-2">
-                                <li>Design, develop, and maintain web applications using a technical stack of Java (Spring Boot) and Python (Flask, Django).</li>
-                                <li>Build responsive and dynamic front-end interfaces using HTML, CSS, JavaScript, and Bootstrap.</li>
-                                <li>Participate proactively in professional training sessions and technical demonstrations.</li>
-                                <li>Focus on continuous upskilling to contribute effectively to new skill projects.</li>
-                                <li>Provide consistent updates to management regarding project progress and development milestones.</li>
-                                <li>Maintain a commitment to professional conduct and adherence to company policies during the 21-month lock-in period.</li>
+                                <li>Engineered a scalable legacy modernization platform processing raw mainframe codebases into modern cloud-ready microservices, reducing manual system analysis time by 35%.</li>
+                                <li>Architected a high-performance core parsing backend using Java, Spring Boot, and PostgreSQL.</li>
+                                <li>Implemented a business logic extraction engine to automatically generate business rules, bridging the gap between legacy code and modern requirements.</li>
+                                <li>Developed a microservices generator converting extracted rules into deployable REST APIs, achieving 98% logic validation accuracy.</li>
+                                <li>Designed responsive and interactive data visualization dashboards using React, JavaScript, HTML/CSS, and Bootstrap.</li>
                             </ul>
                         </div>
                     </div>
                 </div>
 
                 <!-- Education -->
-                <div>
+                <div class="reveal slide-left delay-100">
                     <h3 class="text-2xl font-bold mb-8 flex items-center text-secondary">
                         <i data-lucide="graduation-cap" class="mr-3 w-6 h-6"></i> Education
                     </h3>
                     <div class="space-y-0">
                         <div class="timeline-item">
-                            <div class="timeline-dot" style="background: #34d399; box-shadow: 0 0 10px rgba(52, 211, 153, 0.5);"></div>
+                            <div class="timeline-dot" style="background: #0878E8; box-shadow: 0 0 10px rgba(8, 120, 232, 0.5);"></div>
+                            <div class="mb-1 text-sm text-gray-400">2026 - 2028 (Ongoing)</div>
+                            <h4 class="text-xl font-bold text-white">Master of Computer Applications (MCA)</h4>
+                            <div class="text-secondary mb-1">Madras University, Chennai</div>
+                            <p class="text-gray-500 text-sm">Part-Time / Distance Learning</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot" style="background: #0878E8; box-shadow: 0 0 10px rgba(8, 120, 232, 0.5);"></div>
                             <div class="mb-1 text-sm text-gray-400">2019 - 2022</div>
                             <h4 class="text-xl font-bold text-white">B.Sc Computer Science</h4>
                             <div class="text-secondary mb-1">Sadakathullah Appa College, Tirunelveli</div>
                             <p class="text-gray-500 text-sm">Percentage: 70.69%</p>
                         </div>
                         <div class="timeline-item">
-                            <div class="timeline-dot" style="background: #34d399; box-shadow: 0 0 10px rgba(52, 211, 153, 0.5);"></div>
+                            <div class="timeline-dot" style="background: #0878E8; box-shadow: 0 0 10px rgba(8, 120, 232, 0.5);"></div>
                             <div class="mb-1 text-sm text-gray-400">2018 - 2019</div>
                             <h4 class="text-xl font-bold text-white">Higher Secondary (State Board)</h4>
                             <div class="text-secondary mb-1">V P K B Govt Hr Sec School, Kayathar</div>
                             <p class="text-gray-500 text-sm">Percentage: 54.67%</p>
                         </div>
                         <div class="timeline-item">
-                            <div class="timeline-dot" style="background: #34d399; box-shadow: 0 0 10px rgba(52, 211, 153, 0.5);"></div>
+                            <div class="timeline-dot" style="background: #0878E8; box-shadow: 0 0 10px rgba(8, 120, 232, 0.5);"></div>
                             <div class="mb-1 text-sm text-gray-400">2016 - 2017</div>
                             <h4 class="text-xl font-bold text-white">SSLC (State Board)</h4>
                             <div class="text-secondary mb-1">R C Fathima High School, Kayathar</div>
@@ -666,14 +740,14 @@
             </div>
 
             <!-- Certification -->
-             <div class="mt-12 glass-panel p-6 rounded-xl border border-white/5">
+             <div class="mt-12 glass-panel p-6 rounded-xl border border-white/5 reveal zoom-in">
                 <h3 class="text-xl font-bold mb-4 flex items-center text-white">
                     <i data-lucide="award" class="mr-3 w-5 h-5 text-accent"></i> Certifications
                 </h3>
                 <div class="flex items-center justify-between flex-wrap gap-4">
                     <div>
                         <h4 class="font-bold text-lg">Python Full Stack Development</h4>
-                        <p class="text-gray-400 text-sm">Besant Technologies, Velachery, Chennai</p>
+                        <p class="text-gray-400 text-sm">Besant Technologies, Chennai (2025)</p>
                     </div>
                     <span class="px-3 py-1 bg-accent/10 text-accent border border-accent/20 rounded text-xs font-bold">CERTIFIED</span>
                 </div>
@@ -685,23 +759,25 @@
     <!-- About Section -->
     <section id="about" class="py-24 px-6 relative">
         <div class="max-w-7xl mx-auto">
-            <div class="glass-panel rounded-3xl p-8 md:p-12 border border-white/10">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                    <div>
+            <div class="glass-panel rounded-3xl p-8 md:p-12 border border-white/10 reveal slide-up">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                    <div class="reveal slide-right delay-100">
                         <h2 class="text-3xl md:text-4xl font-bold mb-6">Technical Skills</h2>
                         <p class="text-gray-300 mb-6">
-                            I possess a diverse set of skills ranging from front-end design to back-end logic. My toolkit allows me to build complete, scalable web solutions.
+                            I possess a robust full-stack skill set, bridging the gap between intricate backend architectures and highly responsive frontend designs. My toolkit allows me to build scalable, cloud-ready solutions.
                         </p>
                         
                         <div class="space-y-6">
                             <div>
                                 <h3 class="text-sm font-bold uppercase tracking-widest text-gray-500 mb-3">Languages & Frameworks</h3>
                                 <div class="flex flex-wrap gap-3">
+                                    <span class="skill-tag px-4 py-2 bg-white/5 rounded-lg border border-white/5 hover:border-accent hover:text-accent transition-all cursor-default">Java</span>
+                                    <span class="skill-tag px-4 py-2 bg-white/5 rounded-lg border border-white/5 hover:border-accent hover:text-accent transition-all cursor-default">Spring Boot</span>
                                     <span class="skill-tag px-4 py-2 bg-white/5 rounded-lg border border-white/5 hover:border-accent hover:text-accent transition-all cursor-default">Python</span>
                                     <span class="skill-tag px-4 py-2 bg-white/5 rounded-lg border border-white/5 hover:border-accent hover:text-accent transition-all cursor-default">Django</span>
                                     <span class="skill-tag px-4 py-2 bg-white/5 rounded-lg border border-white/5 hover:border-accent hover:text-accent transition-all cursor-default">React.js</span>
                                     <span class="skill-tag px-4 py-2 bg-white/5 rounded-lg border border-white/5 hover:border-accent hover:text-accent transition-all cursor-default">JavaScript</span>
-                                    <span class="skill-tag px-4 py-2 bg-white/5 rounded-lg border border-white/5 hover:border-accent hover:text-accent transition-all cursor-default">HTML5 / CSS3</span>
+                                    <span class="skill-tag px-4 py-2 bg-white/5 rounded-lg border border-white/5 hover:border-accent hover:text-accent transition-all cursor-default">HTML/CSS</span>
                                     <span class="skill-tag px-4 py-2 bg-white/5 rounded-lg border border-white/5 hover:border-accent hover:text-accent transition-all cursor-default">Bootstrap</span>
                                 </div>
                             </div>
@@ -709,22 +785,22 @@
                             <div>
                                 <h3 class="text-sm font-bold uppercase tracking-widest text-gray-500 mb-3">Database & Tools</h3>
                                 <div class="flex flex-wrap gap-3">
+                                    <span class="skill-tag px-4 py-2 bg-white/5 rounded-lg border border-white/5 hover:border-secondary hover:text-secondary transition-all cursor-default">PostgreSQL</span>
                                     <span class="skill-tag px-4 py-2 bg-white/5 rounded-lg border border-white/5 hover:border-secondary hover:text-secondary transition-all cursor-default">MySQL</span>
                                     <span class="skill-tag px-4 py-2 bg-white/5 rounded-lg border border-white/5 hover:border-secondary hover:text-secondary transition-all cursor-default">Git</span>
                                     <span class="skill-tag px-4 py-2 bg-white/5 rounded-lg border border-white/5 hover:border-secondary hover:text-secondary transition-all cursor-default">GitHub</span>
                                     <span class="skill-tag px-4 py-2 bg-white/5 rounded-lg border border-white/5 hover:border-secondary hover:text-secondary transition-all cursor-default">VS Code</span>
-                                    <span class="skill-tag px-4 py-2 bg-white/5 rounded-lg border border-white/5 hover:border-secondary hover:text-secondary transition-all cursor-default">JSON</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="relative group hidden md:block">
+                    <div class="relative group hidden md:block reveal slide-left delay-200">
                         <div class="absolute -inset-1 bg-gradient-to-r from-accent to-secondary rounded-2xl blur opacity-20 group-hover:opacity-60 transition duration-1000"></div>
                         <div class="relative bg-black/40 backdrop-blur-xl aspect-square rounded-2xl overflow-hidden flex flex-col items-center justify-center border border-white/10 p-8 text-center">
                             <i data-lucide="cpu" class="w-24 h-24 text-accent mb-6 animate-pulse"></i>
-                            <h3 class="text-2xl font-bold text-white mb-2">Full Stack</h3>
-                            <p class="text-gray-400">Connecting clean interfaces with powerful databases.</p>
+                            <h3 class="text-2xl font-bold text-white mb-2">Full Stack Engineering</h3>
+                            <p class="text-gray-400">Connecting powerful architectures with seamless user interfaces.</p>
                         </div>
                     </div>
                 </div>
@@ -733,33 +809,29 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="py-24 px-6 relative">
+    <section id="contact" class="py-24 px-4 sm:px-6 relative">
         <div class="max-w-7xl mx-auto">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                 <!-- Left Panel -->
-                <div class="animate-slide-left">
-                    <h2 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">Let's <br /><span class="text-gradient">Connect.</span></h2>
-                    <p class="text-xl text-gray-400 mb-8">Available for freelance or full-time opportunities.</p>
+                <div class="reveal slide-right">
+                    <h2 class="text-4xl sm:text-5xl md:text-7xl font-bold mb-6 leading-tight">Let's <br /><span class="text-gradient">Connect.</span></h2>
+                    <p class="text-lg sm:text-xl text-gray-400 mb-8">Available for full-time opportunities or freelance collaborations.</p>
                     
                     <div class="space-y-6">
-                        <!-- Email -->
                         <div>
                             <label class="block text-sm font-bold text-accent tracking-widest mb-1">EMAIL</label>
-                            <a href="mailto:HAJIABUBAKERSIDIQ024@GMAIL.COM" class="text-2xl md:text-3xl font-bold text-white hover:text-accent transition-colors break-words">HAJIABUBAKERSIDIQ024@GMAIL.COM</a>
+                            <a href="mailto:sidiqabubaker2002@gmail.com" class="text-xl sm:text-2xl md:text-3xl font-bold text-white hover:text-accent transition-colors break-all">sidiqabubaker2002@gmail.com</a>
                         </div>
-                        <!-- Phone -->
                         <div>
                             <label class="block text-sm font-bold text-accent tracking-widest mb-1">PHONE</label>
-                            <a href="tel:6379539528" class="text-2xl md:text-3xl font-bold text-white hover:text-accent transition-colors">+91 6379539528</a>
+                            <a href="tel:6379539528" class="text-xl sm:text-2xl md:text-3xl font-bold text-white hover:text-accent transition-colors">+91 6379539528</a>
                         </div>
                     </div>
                 </div>
 
                 <!-- Right Panel (Form) -->
-                <div class="glass-panel p-8 rounded-3xl animate-slide-right border border-white/10">
-                    <!-- Form with ID and removed action for JS handling -->
+                <div class="glass-panel p-8 rounded-3xl reveal slide-left border border-white/10 delay-100">
                     <form id="contactForm" method="POST" class="space-y-6">
-                         <!-- Hidden Fields for fallback -->
                         <input type="hidden" name="_honey" style="display:none">
                         <input type="hidden" name="_captcha" value="false">
                         <input type="hidden" name="_subject" value="New Submission from Portfolio">
@@ -791,25 +863,44 @@
         // Init Lucide Icons
         lucide.createIcons();
 
-        // --- NAVBAR LOGIC (Based on User Code) ---
+        // --- STREAMING_CHUNK:Initializing Intersection Observer for Scroll Animations... --- 
+        const setupScrollAnimations = () => {
+            const revealElements = document.querySelectorAll('.reveal');
+            
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px 0px -50px 0px', // Triggers slightly before coming fully into view
+                threshold: 0.15 // 15% of the element needs to be visible
+            };
+
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    } else {
+                        // Optional: Remove to replay animation when scrolling back
+                        // Removes 'active' when completely out of view for re-triggering.
+                        entry.target.classList.remove('active'); 
+                    }
+                });
+            }, observerOptions);
+
+            revealElements.forEach(el => revealObserver.observe(el));
+        };
+
+        // --- NAVBAR LOGIC ---
         const burgerIcon = document.getElementById('burger-icon');
         const navLinksContainer = document.getElementById('nav-links');
         const navItems = document.querySelectorAll('.nav-item');
 
         const toggleMenu = () => {
-            // Toggle 'active' class on both burger icon and nav links container
-            // This matches the logic: `isActive ? "active" : ""` in React code
             const isActive = navLinksContainer.classList.toggle('active');
             burgerIcon.classList.toggle('active');
-            
-            // Optional: Toggle body scrolling
             document.body.style.overflow = isActive ? 'hidden' : 'auto';
         };
 
-        // Click event for Burger Icon
         burgerIcon.addEventListener('click', toggleMenu);
 
-        // Close menu when clicking a link
         navItems.forEach(item => {
             item.addEventListener('click', () => {
                 if (navLinksContainer.classList.contains('active')) {
@@ -845,31 +936,26 @@
 
         if(contactForm) {
             contactForm.addEventListener('submit', function(e) {
-                e.preventDefault(); // Stop default redirect
+                e.preventDefault(); 
                 
-                // UX: Disable button and change text
                 submitBtn.disabled = true;
                 const originalText = submitBtn.innerText;
                 submitBtn.innerText = "Sending...";
 
                 const formData = new FormData(this);
                 
-                // Send to FormSubmit via AJAX
-                fetch("https://formsubmit.co/ajax/HAJIABUBAKERSIDIQ024@GMAIL.COM", {
+                fetch("https://formsubmit.co/ajax/sidiqabubaker2002@gmail.com", {
                     method: "POST",
                     body: formData
                 })
                 .then(response => response.json())
                 .then(data => {
-                    // Success logic
                     submitBtn.innerText = "Message Sent!";
                     submitBtn.classList.add('bg-green-500', 'text-white');
                     submitBtn.classList.remove('bg-accent', 'text-black');
                     
-                    // Clear inputs as requested
                     contactForm.reset();
 
-                    // Reset button after 3 seconds
                     setTimeout(() => {
                         submitBtn.disabled = false;
                         submitBtn.innerText = originalText;
@@ -891,101 +977,179 @@
             });
         }
 
-        // 3D Scene Setup
+        // --- STREAMING_CHUNK:Building the Epic 3D Solar System Action Background... ---
         function initThreeJS() {
-            // Main Background Canvas
             const canvas = document.getElementById('bg-canvas');
             if(canvas) {
                 const scene = new THREE.Scene();
-                // Subtle Fog for depth
-                scene.fog = new THREE.FogExp2(0x020617, 0.003); // Matches themeColors.dark
+                // Deep Near Black fog for cinematic space depth
+                scene.fog = new THREE.FogExp2(0x08090D, 0.0015); 
 
-                const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 4000);
                 const renderer = new THREE.WebGLRenderer({
                     canvas: canvas,
                     alpha: true,
-                    antialias: true
+                    antialias: true,
+                    powerPreference: "high-performance"
                 });
 
                 renderer.setSize(window.innerWidth, window.innerHeight);
                 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-                // PARTICLES (Background - Unchanged)
-                const particlesGeometry = new THREE.BufferGeometry();
-                const particlesCount = 3000;
-                const posArray = new Float32Array(particlesCount * 3);
+                // --- LIGHTING ---
+                const ambientLight = new THREE.AmbientLight(0xffffff, 0.2); // Soft global illumination
+                scene.add(ambientLight);
+                
+                // Powerful Electric Blue light bursting from the central sun
+                const sunLight = new THREE.PointLight(0x006EFF, 3, 2000);
+                scene.add(sunLight);
 
-                for(let i = 0; i < particlesCount * 3; i++) {
-                    posArray[i] = (Math.random() - 0.5) * 60; 
+                // --- SOLAR SYSTEM GROUP ---
+                const solarSystem = new THREE.Group();
+                // Tilt the entire solar system slightly for a better cinematic angle
+                solarSystem.rotation.x = Math.PI / 8; 
+                solarSystem.rotation.z = -Math.PI / 16;
+                scene.add(solarSystem);
+
+                /* --- STREAMING_CHUNK:Constructing the Central Star & Planets... --- */
+                // 1. Central Core (Removed massive solid circle, replaced with abstract particles)
+                const sunGroup = new THREE.Group();
+                
+                // Swirling abstract energy particles instead of a bulky sphere
+                const coreParticleCount = 800;
+                const coreGeo = new THREE.BufferGeometry();
+                const corePos = new Float32Array(coreParticleCount * 3);
+                for(let i=0; i < coreParticleCount; i++) {
+                    const radius = 2 + Math.random() * 25; // Random soft spread
+                    const theta = Math.random() * 2 * Math.PI;
+                    const phi = Math.acos(2 * Math.random() - 1);
+                    
+                    corePos[i*3] = radius * Math.sin(phi) * Math.cos(theta);
+                    corePos[i*3+1] = radius * Math.sin(phi) * Math.sin(theta);
+                    corePos[i*3+2] = radius * Math.cos(phi);
+                }
+                coreGeo.setAttribute('position', new THREE.BufferAttribute(corePos, 3));
+                const coreMat = new THREE.PointsMaterial({
+                    color: 0x0878E8, // Bright Blue
+                    size: 1.5,
+                    transparent: true,
+                    opacity: 0.8,
+                    blending: THREE.AdditiveBlending,
+                    depthWrite: false
+                });
+                const sunCoreParticles = new THREE.Points(coreGeo, coreMat);
+                sunGroup.add(sunCoreParticles);
+                solarSystem.add(sunGroup);
+
+                // 2. Planets Array
+                const planets = [];
+                // Data: radius, distance from sun, base speed, color, has a ring
+                const planetData = [
+                    { radius: 6, dist: 90, speed: 0.008, color: 0x0878E8, ring: false },   // Bright Blue Inner
+                    { radius: 12, dist: 160, speed: 0.005, color: 0x111D2D, ring: true },  // Dark Navy with Ring
+                    { radius: 9, dist: 250, speed: 0.003, color: 0x60799C, ring: false },  // Slate Blue-Gray
+                    { radius: 18, dist: 360, speed: 0.002, color: 0x081D30, ring: true }   // Deep Navy Outer Giant
+                ];
+
+                planetData.forEach(data => {
+                    // Create Orbit Path (Faint wireframe circles)
+                    const pathGeo = new THREE.RingGeometry(data.dist - 0.5, data.dist + 0.5, 64);
+                    const pathMat = new THREE.MeshBasicMaterial({ 
+                        color: 0x60799C, 
+                        side: THREE.DoubleSide, 
+                        transparent: true, 
+                        opacity: 0.15 
+                    });
+                    const path = new THREE.Mesh(pathGeo, pathMat);
+                    path.rotation.x = Math.PI / 2; // Lie flat
+                    solarSystem.add(path);
+
+                    // Create Planet Pivot Group (to rotate around sun)
+                    const orbitGroup = new THREE.Group();
+                    
+                    // Create the physical planet
+                    const pGeo = new THREE.SphereGeometry(data.radius, 32, 32);
+                    const pMat = new THREE.MeshStandardMaterial({ 
+                        color: data.color, 
+                        roughness: 0.4, 
+                        metalness: 0.6 
+                    });
+                    const planetMesh = new THREE.Mesh(pGeo, pMat);
+                    planetMesh.position.x = data.dist; // Offset from sun
+                    
+                    // Add Saturn-like rings to specific planets
+                    if (data.ring) {
+                        const ringGeo = new THREE.TorusGeometry(data.radius * 1.8, 1.2, 16, 100);
+                        const ringMat = new THREE.MeshStandardMaterial({ 
+                            color: 0x006EFF, // Electric Blue rings
+                            side: THREE.DoubleSide,
+                            transparent: true,
+                            opacity: 0.6
+                        });
+                        const planetRing = new THREE.Mesh(ringGeo, ringMat);
+                        planetRing.position.x = data.dist;
+                        planetRing.rotation.x = Math.PI / 2.5; // Tilt the ring
+                        orbitGroup.add(planetRing);
+                        planetMesh.ringMesh = planetRing; // Store reference for self-rotation
+                    }
+
+                    orbitGroup.add(planetMesh);
+                    solarSystem.add(orbitGroup);
+                    
+                    // Store for animation loop
+                    planets.push({
+                        group: orbitGroup,
+                        mesh: planetMesh,
+                        baseSpeed: data.speed
+                    });
+                });
+
+                /* --- STREAMING_CHUNK:Generating the Asteroid/Starfield Particle Belt... --- */
+                const starCount = 6000;
+                const starGeo = new THREE.BufferGeometry();
+                const starPos = new Float32Array(starCount * 3);
+                const starVelocities = new Float32Array(starCount);
+
+                const cMain = new THREE.Color('#006EFF');
+                const cWhite = new THREE.Color('#F5F5F5');
+                const starColors = new Float32Array(starCount * 3);
+
+                for(let i=0; i < starCount; i++) {
+                    // Spread particles across a massive area
+                    starPos[i*3] = (Math.random() - 0.5) * 2000;   // X
+                    starPos[i*3+1] = (Math.random() - 0.5) * 1000; // Y
+                    starPos[i*3+2] = (Math.random() - 0.5) * 2000; // Z
+
+                    starVelocities[i] = 0.5 + Math.random() * 2;
+
+                    let c = Math.random() > 0.6 ? cMain : cWhite;
+                    starColors[i*3] = c.r;
+                    starColors[i*3+1] = c.g;
+                    starColors[i*3+2] = c.b;
                 }
 
-                particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+                starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+                starGeo.setAttribute('color', new THREE.BufferAttribute(starColors, 3));
 
-                const particlesMaterial = new THREE.PointsMaterial({
-                    size: 0.04,
-                    color: 0x10b981, // Matches themeColors.accent (Emerald)
+                const starMat = new THREE.PointsMaterial({
+                    size: 3,
+                    vertexColors: true,
                     transparent: true,
-                    opacity: 0.6,
-                    blending: THREE.AdditiveBlending
+                    opacity: 0.8,
+                    blending: THREE.AdditiveBlending,
+                    depthWrite: false
                 });
 
-                const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-                scene.add(particlesMesh);
+                const starSystem = new THREE.Points(starGeo, starMat);
+                scene.add(starSystem);
 
-                // GEOMETRIC SHAPES
-                
-                // 1. Outer Icosahedron (Sphere)
-                const geometry = new THREE.IcosahedronGeometry(10, 2);
-                const material = new THREE.MeshBasicMaterial({ 
-                    color: 0x34d399, // Matches themeColors.secondary
-                    wireframe: true,
-                    transparent: true,
-                    opacity: 0.1
-                });
-                const sphere = new THREE.Mesh(geometry, material);
-                scene.add(sphere);
-
-                // 2. Inner Core (Octahedron)
-                const coreGeometry = new THREE.OctahedronGeometry(2, 0);
-                const coreMaterial = new THREE.MeshBasicMaterial({
-                    color: 0x10b981, // Matches themeColors.accent
-                    wireframe: true,
-                    transparent: true,
-                    opacity: 0.5
-                });
-                const core = new THREE.Mesh(coreGeometry, coreMaterial);
-                scene.add(core);
-
-                // 3. NEW: Orbital Ring (Torus) - Added Design
-                const ringGeometry = new THREE.TorusGeometry(3.5, 0.05, 16, 100);
-                const ringMaterial = new THREE.MeshBasicMaterial({
-                    color: 0x34d399, // Matches themeColors.secondary
-                    transparent: true,
-                    opacity: 0.4
-                });
-                const ring = new THREE.Mesh(ringGeometry, ringMaterial);
-                ring.rotation.x = Math.PI / 2; // Lie flat initially
-                scene.add(ring);
-
-
-                // Lighting
-                const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-                scene.add(ambientLight);
-                const pointLight = new THREE.PointLight(0xffffff, 1);
-                pointLight.position.set(5, 5, 5);
-                scene.add(pointLight);
-
-                // Interaction Variables
+                // --- INTERACTION LOGIC ---
                 let mouseX = 0;
                 let mouseY = 0;
-                let targetX = 0;
-                let targetY = 0;
                 let isMouseDown = false;
-
                 const windowHalfX = window.innerWidth / 2;
                 const windowHalfY = window.innerHeight / 2;
 
-                // Events
                 document.addEventListener('mousemove', (event) => {
                     mouseX = (event.clientX - windowHalfX);
                     mouseY = (event.clientY - windowHalfY);
@@ -993,51 +1157,86 @@
 
                 document.addEventListener('mousedown', () => { isMouseDown = true; });
                 document.addEventListener('mouseup', () => { isMouseDown = false; });
-                document.addEventListener('touchstart', () => { isMouseDown = true; });
+                document.addEventListener('touchstart', (event) => { 
+                    isMouseDown = true;
+                    if(event.touches.length > 0) {
+                        mouseX = (event.touches[0].clientX - windowHalfX);
+                        mouseY = (event.touches[0].clientY - windowHalfY);
+                    }
+                }, { passive: true });
+                document.addEventListener('touchmove', (event) => {
+                    if(event.touches.length > 0) {
+                        mouseX = (event.touches[0].clientX - windowHalfX);
+                        mouseY = (event.touches[0].clientY - windowHalfY);
+                    }
+                }, { passive: true });
                 document.addEventListener('touchend', () => { isMouseDown = false; });
 
-                // Position Camera
-                camera.position.z = 25;
-
-                // Animation Loop
+                // Set initial camera position pulled back to see the system
+                camera.position.set(0, 150, 450);
+                
                 const clock = new THREE.Clock();
+                let currentActionMultiplier = 1;
 
+                /* --- STREAMING_CHUNK:Starting the cinematic Action Loop... --- */
                 const tick = () => {
                     const elapsedTime = clock.getElapsedTime();
 
-                    // Smooth Mouse Follow (Slower damping factor 0.0005 for "soft/slow" feel)
-                    targetX = mouseX * 0.001;
-                    targetY = mouseY * 0.001;
+                    // Smooth parallax camera movement based on mouse
+                    const targetCamX = mouseX * 0.2;
+                    const targetCamY = 150 + (-mouseY * 0.2);
+                    camera.position.x += (targetCamX - camera.position.x) * 0.05;
+                    camera.position.y += (targetCamY - camera.position.y) * 0.05;
+                    camera.lookAt(solarSystem.position);
 
-                    // Base Rotation
-                    sphere.rotation.y += 0.002;
-                    sphere.rotation.x += 0.001;
+                    // --- ACTION / WARP MODE LOGIC ---
+                    // If mouse down, ramp up the multiplier massively to speed up time
+                    const targetMultiplier = isMouseDown ? 40 : 1; 
+                    currentActionMultiplier += (targetMultiplier - currentActionMultiplier) * 0.05;
 
-                    // Soft/Smooth Interaction (Lag effect)
-                    // Using 0.03 lerp factor makes it "floaty" and soft
-                    sphere.rotation.y += 0.03 * (targetX - sphere.rotation.y);
-                    sphere.rotation.x += 0.03 * (targetY - sphere.rotation.x);
+                    // Dynamic FOV for cinematic stretching during high-speed action
+                    const targetFov = isMouseDown ? 85 : 60;
+                    camera.fov += (targetFov - camera.fov) * 0.08;
+                    camera.updateProjectionMatrix();
 
-                    // Particles Flow
-                    particlesMesh.rotation.y = -elapsedTime * 0.02;
-                    particlesMesh.rotation.x = targetY * 0.1; // Gentle tilt
+                    // Animate Solar System
+                    // 1. Sun pulses and rotates
+                    sunGroup.rotation.y += 0.005 * currentActionMultiplier;
+                    sunGroup.rotation.x += 0.002 * currentActionMultiplier;
+                    // Heartbeat pulsing effect on the sun, intensifies during action mode
+                    const scalePulse = 1 + (Math.sin(elapsedTime * 2 * (currentActionMultiplier*0.2)) * 0.05);
+                    sunGroup.scale.set(scalePulse, scalePulse, scalePulse);
 
-                    // Core Animation
-                    // If mouse down, speed up and expand
-                    const rotationSpeed = isMouseDown ? 0.1 : 0.02;
-                    const scaleTarget = isMouseDown ? 1.5 : (1 + Math.sin(elapsedTime * 2) * 0.1);
-                    
-                    core.rotation.y -= rotationSpeed;
-                    core.rotation.z += rotationSpeed;
-                    
-                    // Ring Animation (New)
-                    ring.rotation.x = Math.PI / 2 + Math.sin(elapsedTime * 0.5) * 0.2;
-                    ring.rotation.y += isMouseDown ? 0.05 : 0.005;
+                    // 2. Planets orbit the sun
+                    planets.forEach(p => {
+                        // Orbit around the sun
+                        p.group.rotation.y += p.baseSpeed * currentActionMultiplier;
+                        // Planet self-rotation
+                        p.mesh.rotation.y += 0.02 * currentActionMultiplier;
+                        p.mesh.rotation.x += 0.01 * currentActionMultiplier;
+                        // Spin planet rings if they have them
+                        if(p.mesh.ringMesh) {
+                            p.mesh.ringMesh.rotation.z -= 0.01 * currentActionMultiplier;
+                        }
+                    });
 
-                    // Smooth scale transition for Core
-                    core.scale.x += 0.05 * (scaleTarget - core.scale.x);
-                    core.scale.y += 0.05 * (scaleTarget - core.scale.y);
-                    core.scale.z += 0.05 * (scaleTarget - core.scale.z);
+                    // 3. Asteroid / Starfield Action Streaks
+                    const positions = starGeo.attributes.position.array;
+                    for(let i=0; i<starCount; i++) {
+                        const i3 = i*3;
+                        // Move stars towards the camera based on action multiplier
+                        positions[i3+2] += starVelocities[i] + (currentActionMultiplier * starVelocities[i] * 0.2);
+
+                        // If star passes camera, loop it back deep into space
+                        if(positions[i3+2] > 500) {
+                            positions[i3+2] = -1500;
+                            positions[i3] = (Math.random() - 0.5) * 2000;
+                            positions[i3+1] = (Math.random() - 0.5) * 1000;
+                        }
+                    }
+                    starGeo.attributes.position.needsUpdate = true;
+                    // Give the whole starfield a slow majestic spin
+                    starSystem.rotation.y = elapsedTime * 0.02;
 
                     renderer.render(scene, camera);
                     window.requestAnimationFrame(tick);
@@ -1045,15 +1244,18 @@
 
                 tick();
 
-                // Resize Handler
+                let windowWidth = window.innerWidth;
                 window.addEventListener('resize', () => {
-                    camera.aspect = window.innerWidth / window.innerHeight;
-                    camera.updateProjectionMatrix();
-                    renderer.setSize(window.innerWidth, window.innerHeight);
+                    if (window.innerWidth !== windowWidth || !/Mobi|Android/i.test(navigator.userAgent)) {
+                        windowWidth = window.innerWidth;
+                        camera.aspect = window.innerWidth / window.innerHeight;
+                        camera.updateProjectionMatrix();
+                        renderer.setSize(window.innerWidth, window.innerHeight);
+                    }
                 });
             }
 
-            // Navbar 3D Canvas
+            // Navbar Mini 3D Canvas (Orbital Ring Logo to match Solar System)
             const navCanvas = document.getElementById('nav-3d-canvas');
             if(navCanvas) {
                 const navScene = new THREE.Scene();
@@ -1065,36 +1267,51 @@
                 });
                 navRenderer.setSize(40, 40);
 
-                const navGeometry = new THREE.IcosahedronGeometry(1, 0);
-                const navMaterial = new THREE.MeshBasicMaterial({ 
-                    color: 0x10b981, 
-                    wireframe: true 
-                });
-                const navMesh = new THREE.Mesh(navGeometry, navMaterial);
-                navScene.add(navMesh);
+                const logoGroup = new THREE.Group();
 
+                // Core Point (Removed bulky wireframe circle, made it a sleek glowing dot)
+                const coreGeo = new THREE.SphereGeometry(0.2, 16, 16);
+                const coreMat = new THREE.MeshBasicMaterial({ color: 0x006EFF });
+                const coreMesh = new THREE.Mesh(coreGeo, coreMat);
+                logoGroup.add(coreMesh);
+                
+                // Orbital Rings
+                const ring1Geo = new THREE.TorusGeometry(0.8, 0.05, 8, 32);
+                const ringMat = new THREE.MeshBasicMaterial({ color: 0x0878E8 });
+                const ring1 = new THREE.Mesh(ring1Geo, ringMat);
+                ring1.rotation.x = Math.PI / 3;
+                logoGroup.add(ring1);
+
+                const ring2 = new THREE.Mesh(ring1Geo, ringMat);
+                ring2.rotation.x = -Math.PI / 3;
+                ring2.rotation.y = Math.PI / 4;
+                logoGroup.add(ring2);
+                
+                navScene.add(logoGroup);
                 navCamera.position.z = 2.5;
 
                 const navAnimate = () => {
                     requestAnimationFrame(navAnimate);
-                    navMesh.rotation.x += 0.02;
-                    navMesh.rotation.y += 0.02;
+                    logoGroup.rotation.x += 0.02;
+                    logoGroup.rotation.y += 0.03;
+                    ring1.rotation.z += 0.05;
+                    ring2.rotation.z -= 0.05;
                     navRenderer.render(navScene, navCamera);
                 };
                 navAnimate();
             }
         }
 
-        // Force scroll to top on refresh
         if (history.scrollRestoration) {
             history.scrollRestoration = 'manual';
         }
 
-        // Wait for window load
         window.onload = function() {
             window.scrollTo(0, 0);
+            
+            // Initialize Scroll Animations
+            setupScrollAnimations();
 
-            // Hide Loader
             const loader = document.getElementById('loader');
             loader.style.opacity = '0';
             setTimeout(() => {
