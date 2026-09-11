@@ -996,6 +996,9 @@
                 
                 fetch("https://formsubmit.co/ajax/sidiqabubaker2002@gmail.com", {
                     method: "POST",
+                    headers: { 
+                        'Accept': 'application/json'
+                    },
                     body: formData
                 })
                 .then(response => response.json())
