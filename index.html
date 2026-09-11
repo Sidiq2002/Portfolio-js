@@ -399,10 +399,14 @@
     <section id="home" class="min-h-screen flex items-center justify-center relative px-6 md:px-8 pt-20">
         <!-- Added w-full and px-2 to ensure strict containment on mobile -->
         <div class="text-center z-10 max-w-4xl w-full mx-auto px-2">
-            <div class="mb-6 inline-block px-4 py-1.5 rounded-full border border-accent/40 bg-accent/10 backdrop-blur-md animate-float reveal slide-down shadow-[0_0_15px_rgba(0,110,255,0.15)]">
-                <span class="text-white text-xs sm:text-sm font-semibold tracking-widest uppercase flex items-center">
-                    <i data-lucide="terminal" class="w-4 h-4 mr-2 text-accent"></i> Full Stack Software Engineer
-                </span>
+            
+            <!-- FIXED: Separated the reveal animation and the float animation to prevent mobile rendering bugs -->
+            <div class="reveal slide-down">
+                <div class="mb-6 inline-block px-4 py-1.5 rounded-full border border-accent/40 bg-accent/10 backdrop-blur-md animate-float shadow-[0_0_15px_rgba(0,110,255,0.15)]">
+                    <span class="text-white text-xs sm:text-sm font-semibold tracking-widest uppercase flex items-center">
+                        <i data-lucide="terminal" class="w-4 h-4 mr-2 text-accent"></i> Full Stack Software Engineer
+                    </span>
+                </div>
             </div>
             
             <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-extrabold tracking-tight mb-6 sm:mb-8 leading-tight reveal zoom-in delay-100 break-words">
